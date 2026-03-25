@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/amel emad/Documents/Uni/MLops/Ass 5/mlruns/814302855893851378/7d1703bb012d4f63b995c00a90cd4d9f/artifacts
+end_time: 1774482882308
+entry_point_name: ''
+experiment_id: '814302855893851378'
+lifecycle_stage: active
+run_id: 7d1703bb012d4f63b995c00a90cd4d9f
+run_name: inquisitive-worm-306
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1774482876373
+status: 3
+tags: []
+user_id: amel emad
