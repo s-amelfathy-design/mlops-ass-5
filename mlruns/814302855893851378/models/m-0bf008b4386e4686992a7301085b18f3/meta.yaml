@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/amel emad/Documents/Uni/MLops/Ass 5/mlruns/814302855893851378/models/m-0bf008b4386e4686992a7301085b18f3/artifacts
+creation_timestamp: 1774483848862
+experiment_id: '814302855893851378'
+last_updated_timestamp: 1774483851891
+model_id: m-0bf008b4386e4686992a7301085b18f3
+model_type: null
+name: model
+source_run_id: 8c61a20f660545bd888b94b2264e4bf3
+status: 2
+status_message: null

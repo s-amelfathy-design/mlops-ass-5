@@ -1,0 +1,23 @@
+artifact_path: file:///C:/Users/amel emad/Documents/Uni/MLops/Ass 5/mlruns/814302855893851378/models/m-0bf008b4386e4686992a7301085b18f3/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.9
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+    skops_trusted_types: null
+mlflow_version: 3.10.1
+model_id: m-0bf008b4386e4686992a7301085b18f3
+model_size_bytes: 9510
+model_uuid: m-0bf008b4386e4686992a7301085b18f3
+prompts: null
+run_id: 8c61a20f660545bd888b94b2264e4bf3
+utc_time_created: '2026-03-26 00:10:48.902391'
