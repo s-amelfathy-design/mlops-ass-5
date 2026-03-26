@@ -51,11 +51,11 @@ jobs:
           name: model-info
           path: model_info.txt
 
-      - name: Download mlruns artifact
-        uses: actions/download-artifact@v4
+      - name: Upload mlruns artifact
+        uses: actions/upload-artifact@v4
         with:
           name: mlruns-data
-          path: .
+          path: mlruns
 
   deploy:
     needs: validate
@@ -97,7 +97,8 @@ jobs:
           if [ ! -f data/data.csv ]; then
             python make_data.py
           fi
-          ls -la data
+          ls -la
+          ls -la mlruns
           cat model_info.txt
 
       - name: Check threshold in MLflow
