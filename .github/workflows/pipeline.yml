@@ -45,17 +45,20 @@ jobs:
           echo "model_info.txt found"
           cat model_info.txt
 
+      - name: Pack mlruns
+        run: tar -czf mlruns.tar.gz mlruns
+
       - name: Upload model_info artifact
         uses: actions/upload-artifact@v4
         with:
           name: model-info
           path: model_info.txt
 
-      - name: Upload mlruns artifact
+      - name: Upload mlruns archive
         uses: actions/upload-artifact@v4
         with:
-          name: mlruns-data
-          path: mlruns
+          name: mlruns-archive
+          path: mlruns.tar.gz
 
   deploy:
     needs: validate
@@ -83,11 +86,18 @@ jobs:
           name: model-info
           path: .
 
-      - name: Download mlruns artifact
+      - name: Download mlruns archive
         uses: actions/download-artifact@v4
         with:
-          name: mlruns-data
-          path: mlruns
+          name: mlruns-archive
+          path: .
+
+      - name: Extract mlruns
+        run: |
+          tar -xzf mlruns.tar.gz
+          ls -la
+          ls -la mlruns
+          cat model_info.txt
 
       - name: Pull data with DVC
         run: dvc pull --allow-missing
@@ -97,17 +107,13 @@ jobs:
           if [ ! -f data/data.csv ]; then
             python make_data.py
           fi
-          ls -la
-          ls -la mlruns
-          cat model_info.txt
+          ls -la data
 
       - name: Check threshold in MLflow
         run: python check_threshold.py
 
       - name: Mock Docker build
-        run: |
-          echo "Building Docker image for Run ID: $(cat model_info.txt)"
+        run: echo "Building Docker image for Run ID: $(cat model_info.txt)"
 
       - name: Build Docker image
-        run: |
-          docker build --build-arg RUN_ID="$(cat model_info.txt)" -t mock-model-image .
+        run: docker build --build-arg RUN_ID="$(cat model_info.txt)" -t mock-model-image .
