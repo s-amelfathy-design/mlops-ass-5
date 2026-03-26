@@ -1,6 +1,7 @@
 name: Model Validation and Deployment Pipeline
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - "**"
@@ -8,7 +9,6 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-
     env:
       MLFLOW_TRACKING_URI: file:./mlruns
 
@@ -53,7 +53,6 @@ jobs:
   deploy:
     needs: validate
     runs-on: ubuntu-latest
-
     env:
       MLFLOW_TRACKING_URI: file:./mlruns
 
@@ -94,7 +93,9 @@ jobs:
         run: python check_threshold.py
 
       - name: Mock Docker build
-        run: echo "Building Docker image for Run ID: $(cat model_info.txt)"
+        run: |
+          echo "Building Docker image for Run ID: $(cat model_info.txt)"
 
       - name: Build Docker image
-        run: docker build --build-arg RUN_ID=$(cat model_info.txt) -t mock-model-image .
+        run: |
+          docker build --build-arg RUN_ID=$(cat model_info.txt) -t mock-model-image .
