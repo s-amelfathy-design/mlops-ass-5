@@ -27,7 +27,14 @@ jobs:
           pip install -r requirements.txt
 
       - name: Pull data with DVC
-        run: dvc pull
+        run: dvc pull --allow-missing
+
+      - name: Ensure training dataset exists
+        run: |
+          if [ ! -f data/data.csv ]; then
+            python make_data.py
+          fi
+          ls -la data
 
       - name: Train model and log to MLflow
         run: python train.py
@@ -82,20 +89,21 @@ jobs:
           path: mlruns
 
       - name: Pull data with DVC
-        run: dvc pull
+        run: dvc pull --allow-missing
 
-      - name: Show files
+      - name: Ensure training dataset exists
         run: |
-          ls -la
+          if [ ! -f data/data.csv ]; then
+            python make_data.py
+          fi
+          ls -la data
           cat model_info.txt
 
       - name: Check threshold in MLflow
         run: python check_threshold.py
 
       - name: Mock Docker build
-        run: |
-          echo "Building Docker image for Run ID: $(cat model_info.txt)"
+        run: echo "Building Docker image for Run ID: $(cat model_info.txt)"
 
       - name: Build Docker image
-        run: |
-          docker build --build-arg RUN_ID=$(cat model_info.txt) -t mock-model-image .
+        run: docker build --build-arg RUN_ID=$(cat model_info.txt) -t mock-model-image .
