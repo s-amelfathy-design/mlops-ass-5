@@ -51,11 +51,11 @@ jobs:
           name: model-info
           path: model_info.txt
 
-      - name: Upload mlruns artifact
-        uses: actions/upload-artifact@v4
+      - name: Download mlruns artifact
+        uses: actions/download-artifact@v4
         with:
           name: mlruns-data
-          path: mlruns
+          path: .
 
   deploy:
     needs: validate
@@ -81,12 +81,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: model-info
+          path: .
 
       - name: Download mlruns artifact
         uses: actions/download-artifact@v4
         with:
           name: mlruns-data
-          path: mlruns
+          path: .
 
       - name: Pull data with DVC
         run: dvc pull --allow-missing
