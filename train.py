@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 import mlflow
-import mlflow.sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
@@ -10,9 +9,7 @@ MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "file:./mlruns")
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 mlflow.set_experiment("mlops_assignment_5")
 
-# Read dataset pulled by DVC
 df = pd.read_csv("data/data.csv")
-
 X = df.drop(columns=["target"])
 y = df["target"]
 
@@ -39,11 +36,9 @@ with mlflow.start_run() as run:
     mlflow.log_param("n_estimators", N_ESTIMATORS)
     mlflow.log_param("max_depth", MAX_DEPTH)
     mlflow.log_metric("accuracy", accuracy)
-    mlflow.sklearn.log_model(model, "model")
 
     with open("model_info.txt", "w") as f:
         f.write(run_id)
 
     print("Run ID:", run_id)
     print("Accuracy:", accuracy)
-    print("model_info.txt created successfully")
